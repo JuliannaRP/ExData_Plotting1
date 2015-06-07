@@ -1,0 +1,13 @@
+temp <- tempfile()
+download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip",temp)
+header <- read.table(unz(temp, "household_power_consumption.txt"),sep=";",nrows=1,header=FALSE,stringsAsFactors = FALSE)
+data <- read.table(unz(temp, "household_power_consumption.txt"),sep=";",header=TRUE,skip=66636,nrows=2880,quote="",na.strings="?")
+unlink(temp)
+colnames(data) <- unlist(header)
+x <- c("Thu","Fri","Sat")
+a <- c(1,1440,2880)
+set <- 1:2880
+png("plot2.png", width=480, height=480)
+plot(set,data$Global_active_power,type="l",ylab="Global Active Power (kilowatts)",xlab="",main="",xaxt="n")
+axis(1, at=a, labels=x)
+dev.off()
